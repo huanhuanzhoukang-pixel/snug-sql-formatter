@@ -2,7 +2,7 @@
   "name": "snug-sql-formatter",
   "displayName": "Snug SQL Formatter",
   "description": "Screen-width-aware SQL / HQL / DDL formatter with built-in lint: wraps at W*80%, snaps to complete logical blocks, and flags errors and questionable patterns in the Problems panel.",
-  "version": "1.1.1",
+  "version": "1.1.2",
   "publisher": "zkcoding",
   "engines": {
     "vscode": "^1.60.0"

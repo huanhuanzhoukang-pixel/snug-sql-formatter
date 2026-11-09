@@ -1582,6 +1582,47 @@ T('AG-4.3 闭合的 q-quote 仍正常排版', (function () {
     return o.indexOf("q'[abc]'") >= 0 && vk.lastDiagnostics().status === 'formatted';
 })(), J(sql("select q'[abc]' as x, b from t", { dialect: 'oracle' })));
 
+/* AG-4.4（P0，2026-11-09 复核）：**任何 q 开头的标识符**都曾被判成未闭合 q-quote。
+ *
+ * `matchQQuote` 的前置校验是 `sql[i+1] !== "'"` 就返回 -1，而调用点却对任何
+ * q/Q 开头的 token 无条件 markUnterminated —— 于是 `quantity` / `qty` / `q`
+ * 这类随处可见的列名会让**整篇 SQL** 被判为 `unterminated` 并原样返回，
+ * 用户按格式化按钮毫无反应，且提示语说的是"q-quote 没闭合"，牛头不对马嘴。
+ *
+ * 这条用例守的是"正常标识符要能正常格式化"，比 AG-4 更重要 ——
+ * 旧写法为了保护 Oracle q-quote 而把绝大多数 SQL 都挡在门外。 */
+T('AG-4.4 q 开头的标识符不被当成 q-quote', (function () {
+    var cases = ['quantity', 'qty', 'q', 'quarter', 'query', 'quota'];
+    for (var i = 0; i < cases.length; i++) {
+        var q = 'select ' + cases[i] + ' from t where ' + cases[i] + ' > 0';
+        var o = sql(q, { dialect: 'hive' });
+        if (vk.lastDiagnostics().status !== 'formatted') return false;
+        /* 关键字大写、列名保持原样（列名不是关键字，不该被改）。 */
+        if (o.indexOf('SELECT ' + cases[i]) !== 0) return false;
+    }
+    return true;
+})(), J(sql('select quantity from t', { dialect: 'hive' })));
+
+/* AG-4.5：真实语料回归 —— 下面这句是 demo 用的长查询，含 `a.quantity`，
+ * 修复前它会被整篇拒格式化（演示动图因此完全做不出来）。 */
+T('AG-4.5 含 quantity 的长查询能正常折行', (function () {
+    var q = 'select a.user_id, a.order_id, a.amount * a.quantity as total_amount, ' +
+        "b.region_name from fact_orders a left join dim_region b on a.region_id = b.region_id " +
+        'where a.dt = \'2026-11-01\' and a.amount > 0 order by a.user_id, a.order_id';
+    vk.sqlCacheClear();
+    var o = vk.sql(q, true, false, true, 96, 100, { dialect: 'hive', hardWidth: 100, tabWidth: 2 });
+    return vk.lastDiagnostics().status === 'formatted' &&
+        o.indexOf('a.amount * a.quantity AS total_amount') > 0 &&
+        o.split('\n').length > 6;
+})(), '含 quantity 的长查询仍被当成未闭合 q-quote');
+
+/* AG-4.6 反向断言：真正未闭合的 q-quote 仍必须原样返回（不能让修复把 AG-4 弄丢）。 */
+T('AG-4.6 真未闭合的 q-quote 仍原样返回', (function () {
+    var t = "select q'[abc from t";
+    var o = sql(t, { dialect: 'oracle' });
+    return o === t && vk.lastDiagnostics().status === 'unterminated';
+})(), J(sql("select q'[abc from t", { dialect: 'oracle' })));
+
 /* AG-5（P1-7）：DDL 的 EOL 只看代码区，不被字面量里的 CRLF 带偏。 */
 T('AG-5 LF 文档 + 字面量内 CRLF → 代码区仍是 LF', (function () {
     var q = "create table t (\n  a string default 'x\r\ny'\n)";

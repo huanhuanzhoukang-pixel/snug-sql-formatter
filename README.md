@@ -191,7 +191,7 @@ statement-by-statement when a check fails, so it never silently corrupts code.
 ## 开发 Development
 
 ```bash
-npm test            # 268 条回归（格式化 / 诊断规则 / 接入层 / 异步与复核组）
+npm test            # 271 条回归（格式化 / 诊断规则 / 接入层 / 异步与复核组）
 node --check src/kernel.js
 ```
 

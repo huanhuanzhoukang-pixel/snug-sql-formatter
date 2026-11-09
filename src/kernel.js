@@ -1952,11 +1952,13 @@ function tokenizeRaw(sql, opts) {
         tokens.push({ type: 'string', value: sql.slice(i, qq), nl: nl, start: i, end: qq });
         nl = 0; i = qq; continue;
       }
-      /* P1-9（2026-11-06 复核）：`q'[abc` 这种未闭合的 q-quote 会被拆成
-       * `q` + `'[abc`（两个 token），格式化后变成 `q '[abc…` —— 语义从
-       * "一个字面量"变成"标识符 + 字符串"，而 status 仍是 formatted。
-       * 与 nq'' 一致：标记未闭合，由 sql() 原样返回。 */
-      markUnterminated('q-quote', i);
+      /* P0（2026-11-09 复核）：**必须再确认下一个字符是引号**才谈得上"未闭合"。
+       * matchQQuote 的前置校验是 `sql[i+1] !== "'"` 就返回 -1，而旧写法在这个
+       * 分支里对任何 q/Q 开头的 token 都无条件 markUnterminated —— 于是
+       * `select quantity from t`、`select qty from t` 这类**完全合法**的 SQL
+       * 全被判成"q-quote 未闭合"，整篇原样返回、拒绝格式化。
+       * 对照 nq'' 分支：那里的条件写的是 `sql[i+2] === "'"`，本来是对的。 */
+      if (sql[i + 1] === "'") markUnterminated('q-quote', i);
     }
 
     /* 字符串 / 引号标识符 */

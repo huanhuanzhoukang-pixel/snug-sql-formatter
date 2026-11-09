@@ -1,11 +1,12 @@
 # Snug SQL Formatter 审计报告
 
 - **被测目标**：`zkcoding.snug-sql-formatter` 1.1.0（目录 `C:\Users\zhoukang.YW\.vscode\extensions\zkcoding.snug-sql-formatter-1.0.0`）。
-  1.1.1 是本报告的收尾补丁版，只改仓库地址与文档，审计结论不随之变化
+  1.1.1 只改仓库地址与文档；1.1.2 修复了一处本报告未覆盖的 P0 缺陷
+  （`q` 开头的标识符被判成未闭合 q-quote），审计结论本身不随之变化
 - **审计日期**：2026-11-05
-- **代码规模**：`extension.js` 1958 行、`src/kernel.js` 10498 行、`src/lint.js` 1255 行、`test/run.js` 2284 行，运行时零依赖（数字为 2026-11-09 复核时）
+- **代码规模**：`extension.js` 1958 行、`src/kernel.js` 10500 行、`src/lint.js` 1255 行、`test/run.js` 2325 行，运行时零依赖（数字为 2026-11-09 复核时）
 - **审计方式**：全文通读 + 100 余个针对性探测脚本（在 `$TMPDIR` 下运行，未写入仓库）+ 3000 轮随机 fuzz + 真实语料回归
-- **基线**：审计当时 `npm test` 162/162、`npm run lint` 27/27；**2026-11-09 复核时**为 `npm test` 268/268、`npm run lint` 27/27。下文缺陷均已用脚本复现，均**不在**审计当时的回归覆盖范围内
+- **基线**：审计当时 `npm test` 162/162、`npm run lint` 27/27；**2026-11-09 复核时**为 `npm test` 271/271、`npm run lint` 27/27。下文缺陷均已用脚本复现，均**不在**审计当时的回归覆盖范围内
 
 ---
 
@@ -37,7 +38,7 @@
 | `extension.js` | VS Code 接入层：配置读取、宽度推导、屏幕探测与缓存、命令、选区合并、缩进保护、诊断接入 |
 | `src/kernel.js` | 格式化内核：词法器 → 子句状态机 → 折行 → 对齐；安全网；LRU 缓存；DDL 与 Extract |
 | `src/lint.js` | 诊断引擎：20 条规则，纯函数，复用内核词法器 |
-| `test/run.js` | 审计当时 162 条回归；2026-11-09 复核时 268 条（内核 / 诊断 / 接入层 / 复核组） |
+| `test/run.js` | 审计当时 162 条回归；2026-11-09 复核时 271 条（内核 / 诊断 / 接入层 / 复核组） |
 | `package.json`、`README.md`、`CHANGELOG.md`、`PUBLISH-CHECKLIST.md`、`.vscodeignore`、`probe.ps1`、`ACKNOWLEDGEMENTS.md` | 元数据与文档一致性核对 |
 
 ### 1.2 验证手段

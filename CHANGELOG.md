@@ -1,5 +1,56 @@
 # 更新日志 / Changelog
 
+## 1.1.2 — 2026-11-09
+
+### 修复：q 开头的标识符让整篇 SQL 拒绝格式化（P0）
+
+`tokenizeRaw` 的 Oracle q-quote 分支里，`markUnterminated('q-quote', i)` 是**无条件**调用的，
+而 `matchQQuote` 的前置校验是「下一个字符不是 `'` 就返回 -1」。于是任何以 `q` / `Q`
+开头的标识符都会被当成「未闭合的 q-quote」：
+
+```
+select quantity from t      →  unterminated，原样返回（等于按了没反应）
+select qty from t           →  unterminated
+select order_id, qty from t →  unterminated
+```
+
+`quantity`、`qty`、`q`、`query`、`quarter` 都是再常见不过的列名，实际影响面很大：
+用户按格式化键毫无反应，状态栏提示却是「q-quote 没有闭合」，牛头不对马嘴。
+与方言无关（hive / mysql / pgsql / oracle / tsql / snowflake 全部命中）。
+
+修法是补上前置条件 —— 只有当场就是 `q'` 的形态才谈得上「未闭合」：
+
+```js
+if (sql[i + 1] === "'") markUnterminated('q-quote', i);
+```
+
+新增 `AG-4.4` / `AG-4.5` / `AG-4.6` 三条用例：前两条守「正常标识符要能格式化」，
+第三条反向守「真正未闭合的 `q'[abc` 仍必须原样返回」，避免修复把 AG-4 的语义弄丢。
+
+### 重做演示动图
+
+原 `images/demo.gif` 是 1.0.0 时期录的，只演示了折行一项，且**与当前版本对不上**
+（没有诊断、没有 DDL、没有 Extract；画面里的示例 SQL 还是旧的）。
+现在按当前功能重录：
+
+| | 旧 | 新 |
+|---|---|---|
+| 覆盖功能 | 仅折行 | 折行 → 诊断 → DDL → Extract 四段 |
+| 尺寸 | 700×437 | 700×288 |
+| 帧数 / 时长 | 13 / 9.4 s | 38 / 13.4 s |
+| 体积 | 85 KB | 221 KB |
+
+关键做法：动图里出现的**每一行格式化结果、每一条诊断位置**，都先由真实内核
+（`src/kernel.js` / `src/lint.js`）算好再画进画面 —— 不是手写示意文本，
+所以画面与插件实际行为逐字一致。配色沿用 README 里另外两张图
+（`comma.png` / `tablevswhitespace.png`）的调色板（`#0e1116` 底 + GitHub 深色语法色）。
+
+### 回归
+
+271 / 271 全绿（新增 3 条），`npm run lint` 27 / 27，`npm run check` 通过。
+
+---
+
 ## 1.1.1 — 2026-11-09
 
 ### 修正：上架后发现的失效链接

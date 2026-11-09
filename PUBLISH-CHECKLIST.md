@@ -2,8 +2,8 @@
 
 目标：把 `zkcoding.snug-sql-formatter` 发布到 VS Code Marketplace。
 
-**状态：1.1.0 已于 2026-11-09 上架**（公开，`flags: validated, public`）。
-本清单保留完整流程作为留档；当前待办是发 1.1.1 修掉 1.1.0 的仓库地址错误（见 §4）。
+**状态：1.1.1 已于 2026-11-09 上架**（公开）。仓库地址导致的裂图 / 失效链接已全部修复。
+本清单保留完整流程作为留档；当前待办是发 **1.1.2**（P0 修复 + 重录演示动图，见 §4）。
 
 下面按顺序做，每一步都写了"成功时看到什么"和"常见报错怎么办"。
 
@@ -15,10 +15,10 @@
 |---|---|
 | 许可合规 | `LICENSE.txt` 含 `Portions Copyright (c) 2019 Clark Yu`；`NOTICE.md` 保留上游 MIT 全文 |
 | 署名 | `ACKNOWLEDGEMENTS.md`、`README.md`、`CHANGELOG.md` 均如实说明衍生关系 |
-| 回归 | `npm test` 268 / 268 |
+| 回归 | `npm test` 271 / 271 |
 | 语法 | `npm run check` 通过 |
 | 诊断自检 | `npm run lint` 27 / 27 |
-| 打包 | `vsce package` 成功，22 个文件 / 383 KB |
+| 打包 | `vsce package` 成功，22 个文件 / 515 KB |
 | 排除项 | `test/`、`AUDIT-REPORT.md`、`PUBLISH-CHECKLIST.md`、`images/demo2.gif` 不进包 |
 
 想自己复验一遍：
@@ -126,8 +126,9 @@ git push -u origin main
 
 | 版本 | 状态 |
 |---|---|
-| `1.1.0` | ✅ **已于 2026-11-09 上架**（首发）。sha256 `7e578d36…`，与本地 `snug-sql-formatter-1.1.0.vsix` 一致 |
-| `1.1.1` | 本轮要发的补丁版：修复 1.1.0 的仓库地址指向不存在的 `github.com/zkcoding/...`，导致 README 三张图与 `NOTICE.md` / `LICENSE.txt` 链接全部 404 |
+| `1.1.0` | ✅ 已于 2026-11-09 上架（首发）。因 `repository` 指向不存在的仓库，页面三张图 / `NOTICE.md` / `LICENSE.txt` 全部 404 |
+| `1.1.1` | ✅ 已于 2026-11-09 上架。修复仓库地址，裂图与失效链接全部恢复 |
+| `1.1.2` | 待发。修复 P0：`q` 开头的标识符被判成未闭合 q-quote，整篇 SQL 拒绝格式化；同时重录演示动图 |
 
 **不要**用 `1.0.0`：`CHANGELOG.md` 里它是更早的里程碑，倒着发会让版本历史读起来矛盾。
 
@@ -233,10 +234,10 @@ npx @vscode/vsce publish major   # 1.1.0 → 2.0.0
 | 扩展 ID | `zkcoding.snug-sql-formatter` |
 | Publisher ID | `zkcoding`（GUID `bdd6286b-8ed7-41f0-bc4e-c33c738056cd`） |
 | GitHub 仓库 | `huanhuanzhoukang-pixel/snug-sql-formatter` |
-| 已上架版本 | `1.1.0`（2026-11-09 07:37 UTC，公开） |
-| 本地待发版本 | `1.1.1`（修复 1.1.0 的仓库地址指向不存在的 `github.com/zkcoding/...`） |
+| 已上架版本 | `1.1.1`（2026-11-09，公开；修复了 1.1.0 的仓库地址错误） |
+| 本地待发版本 | `1.1.2`（修复 `q` 开头标识符被判成未闭合 q-quote 的 P0 缺陷 + 重录演示动图） |
 | 许可 | MIT（`Copyright (c) 2026 zkcoding` + `Portions Copyright (c) 2019 Clark Yu`） |
 | 运行时依赖 | 无 |
-| 回归 | 268 / 268 |
+| 回归 | 271 / 271 |
 | 诊断规则 | 20 条 |
-| 打包 | 22 个文件 / 383 KB |
+| 打包 | 22 个文件 / 515 KB |
