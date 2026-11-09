@@ -1,0 +1,255 @@
+{
+  "name": "snug-sql-formatter",
+  "displayName": "Snug SQL Formatter",
+  "description": "Screen-width-aware SQL / HQL / DDL formatter with built-in lint: wraps at W*80%, snaps to complete logical blocks, and flags errors and questionable patterns in the Problems panel.",
+  "version": "1.1.1",
+  "publisher": "zkcoding",
+  "engines": {
+    "vscode": "^1.60.0"
+  },
+  "keywords": [
+    "sql",
+    "formatter",
+    "beautifier",
+    "pretty-print",
+    "line-width",
+    "wrap",
+    "hive",
+    "spark-sql",
+    "presto",
+    "trino"
+  ],
+  "categories": [
+    "Formatters"
+  ],
+  "activationEvents": [
+    "onLanguage:sql",
+    "onLanguage:hive-sql",
+    "onLanguage:hivesql",
+    "onLanguage:spark-sql",
+    "onLanguage:mysql",
+    "onLanguage:pgsql",
+    "onLanguage:plsql",
+    "onLanguage:bigquery",
+    "onLanguage:snowflake-sql",
+    "onLanguage:sql-bigquery",
+    "onLanguage:impala",
+    "onLanguage:clickhouse",
+    "onLanguage:tsql",
+    "onLanguage:postgres",
+    "onLanguage:postgresql",
+    "onLanguage:plpgsql",
+    "onLanguage:mssql",
+    "onLanguage:sqlserver",
+    "onLanguage:trino",
+    "onLanguage:presto",
+    "onLanguage:redshift",
+    "onLanguage:snowflake",
+    "onLanguage:duckdb",
+    "onLanguage:oracle",
+    "onLanguage:sqlite",
+    "onLanguage:db2",
+    "onLanguage:databricks",
+    "onLanguage:doris",
+    "onLanguage:starrocks",
+    "onLanguage:maxcompute",
+    "onLanguage:odps",
+    "onCommand:snugSql.beautifySql",
+    "onCommand:snugSql.beautifySqlddl",
+    "onCommand:snugSql.extractDdl",
+    "onCommand:snugSql.relint"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/huanhuanzhoukang-pixel/snug-sql-formatter.git"
+  },
+  "main": "./extension.js",
+  "extensionKind": [
+    "ui",
+    "workspace"
+  ],
+  "capabilities": {
+    "untrustedWorkspaces": {
+      "supported": "limited",
+      "description": "Untrusted workspaces are supported but screen width detection (a PowerShell probe) is skipped; the formatting width falls back to the configured/default value."
+    },
+    "virtualWorkspaces": true
+  },
+  "scripts": {
+    "check": "node --check extension.js && node --check src/kernel.js && node --check src/lint.js && node --check test/run.js",
+    "lint": "node src/lint.js --selftest",
+    "test": "node test/run.js",
+    "vscode:prepublish": "node --check extension.js && node --check src/kernel.js && node --check src/lint.js && node --check test/run.js && node test/run.js"
+  },
+  "contributes": {
+    "commands": [
+      {
+        "command": "snugSql.beautifySql",
+        "title": "Beautify SQL",
+        "category": "Snug SQL Formatter"
+      },
+      {
+        "command": "snugSql.beautifySqlddl",
+        "title": "Beautify SQL DDL",
+        "category": "Snug SQL Formatter"
+      },
+      {
+        "command": "snugSql.extractDdl",
+        "title": "Extract SQL DDL",
+        "category": "Snug SQL Formatter"
+      },
+      {
+        "command": "snugSql.relint",
+        "title": "Re-check SQL",
+        "category": "Snug SQL Formatter"
+      }
+    ],
+    "keybindings": [
+      {
+        "command": "snugSql.beautifySql",
+        "key": "alt+shift+s",
+        "when": "editorTextFocus && !editorReadonly && (editorLangId == 'sql' || editorLangId == 'hive-sql' || editorLangId == 'hivesql' || editorLangId == 'spark-sql' || editorLangId == 'mysql' || editorLangId == 'pgsql' || editorLangId == 'plsql' || editorLangId == 'bigquery' || editorLangId == 'snowflake-sql' || editorLangId == 'sql-bigquery' || editorLangId == 'impala' || editorLangId == 'clickhouse' || editorLangId == 'tsql' || editorLangId == 'postgres' || editorLangId == 'postgresql' || editorLangId == 'plpgsql' || editorLangId == 'mssql' || editorLangId == 'sqlserver' || editorLangId == 'trino' || editorLangId == 'presto' || editorLangId == 'redshift' || editorLangId == 'snowflake' || editorLangId == 'duckdb' || editorLangId == 'oracle' || editorLangId == 'sqlite' || editorLangId == 'db2' || editorLangId == 'databricks' || editorLangId == 'doris' || editorLangId == 'starrocks' || editorLangId == 'maxcompute' || editorLangId == 'odps')"
+      },
+      {
+        "command": "snugSql.beautifySqlddl",
+        "key": "alt+shift+l",
+        "when": "editorTextFocus && !editorReadonly && (editorLangId == 'sql' || editorLangId == 'hive-sql' || editorLangId == 'hivesql' || editorLangId == 'spark-sql' || editorLangId == 'mysql' || editorLangId == 'pgsql' || editorLangId == 'plsql' || editorLangId == 'bigquery' || editorLangId == 'snowflake-sql' || editorLangId == 'sql-bigquery' || editorLangId == 'impala' || editorLangId == 'clickhouse' || editorLangId == 'tsql' || editorLangId == 'postgres' || editorLangId == 'postgresql' || editorLangId == 'plpgsql' || editorLangId == 'mssql' || editorLangId == 'sqlserver' || editorLangId == 'trino' || editorLangId == 'presto' || editorLangId == 'redshift' || editorLangId == 'snowflake' || editorLangId == 'duckdb' || editorLangId == 'oracle' || editorLangId == 'sqlite' || editorLangId == 'db2' || editorLangId == 'databricks' || editorLangId == 'doris' || editorLangId == 'starrocks' || editorLangId == 'maxcompute' || editorLangId == 'odps')"
+      },
+      {
+        "command": "snugSql.extractDdl",
+        "key": "alt+shift+;",
+        "when": "editorTextFocus && !editorReadonly && (editorLangId == 'sql' || editorLangId == 'hive-sql' || editorLangId == 'hivesql' || editorLangId == 'spark-sql' || editorLangId == 'mysql' || editorLangId == 'pgsql' || editorLangId == 'plsql' || editorLangId == 'bigquery' || editorLangId == 'snowflake-sql' || editorLangId == 'sql-bigquery' || editorLangId == 'impala' || editorLangId == 'clickhouse' || editorLangId == 'tsql' || editorLangId == 'postgres' || editorLangId == 'postgresql' || editorLangId == 'plpgsql' || editorLangId == 'mssql' || editorLangId == 'sqlserver' || editorLangId == 'trino' || editorLangId == 'presto' || editorLangId == 'redshift' || editorLangId == 'snowflake' || editorLangId == 'duckdb' || editorLangId == 'oracle' || editorLangId == 'sqlite' || editorLangId == 'db2' || editorLangId == 'databricks' || editorLangId == 'doris' || editorLangId == 'starrocks' || editorLangId == 'maxcompute' || editorLangId == 'odps')"
+      }
+    ],
+    "configuration": {
+      "type": "object",
+      "title": "Snug SQL Formatter",
+      "properties": {
+        "snugSql.uppercase": {
+          "scope": "resource",
+          "type": "boolean",
+          "default": true,
+          "description": "关键字转大写（含 AS / CASE WHEN / 数据类型）。关掉后统一转小写。/ Uppercase SQL keywords, including AS, CASE WHEN and data types. Turn off to lowercase them instead."
+        },
+        "snugSql.comma_location": {
+          "scope": "resource",
+          "type": "boolean",
+          "default": false,
+          "description": "逗号放行尾还是行首。true = 逗号补到上一行行尾（SELECT 列表与 CREATE TABLE 列清单都生效）；false（默认）= 逗号留在下一行行首，便于整块复制列清单后继续追加。两种风格都保持列对齐。/ Whether the comma goes at the end of the previous line (true) or at the start of the next line (false, default). Applies to both SELECT lists and CREATE TABLE column lists; both styles stay column-aligned."
+        },
+        "snugSql.bracket_char": {
+          "scope": "resource",
+          "type": "boolean",
+          "default": false,
+          "description": "Use spaces instead of a Tab for the indentation of subqueries and DDL column lists. The width follows editor.tabSize (not a fixed 4). When left unset, the extension follows the editor's insertSpaces setting, so most users already get spaces. /用空格代替制表符来做子查询与 DDL 列清单的缩进；宽度跟随 editor.tabSize（不再是固定的四个空格）。未显式设置时跟随编辑器的 insertSpaces，因此多数用户默认拿到的就是空格。"
+        },
+        "snugSql.dialect": {
+          "scope": "resource",
+          "type": "string",
+          "default": "auto",
+          "enum": [
+            "auto",
+            "mysql",
+            "pgsql",
+            "hive",
+            "spark",
+            "tsql",
+            "clickhouse",
+            "bigquery",
+            "snowflake",
+            "impala",
+            "oracle",
+            "trino",
+            "presto",
+            "redshift",
+            "duckdb",
+            "sqlite",
+            "db2",
+            "databricks"
+          ],
+          "enumDescriptions": [
+            "Follow the editor's language id /跟随编辑器语言标识（推荐）",
+            "MySQL / MariaDB: `#` starts a line comment /`#` 是行注释",
+            "PostgreSQL: `#` is bitwise XOR, `#>` and `#>>` are JSON operators /`#` 是位异或",
+            "Hive: `#` is XOR, only `--` and /* */ are comments /`#` 是运算符",
+            "Spark SQL: same as Hive /同 Hive",
+            "SQL Server: `#temp` is a temp table name /`#` 是临时表前缀",
+            "ClickHouse: `#` is XOR /`#` 是运算符",
+            "BigQuery: `#` is XOR /`#` 是运算符",
+            "Snowflake: `#` is XOR /`#` 是运算符",
+            "Impala: `#` is XOR /`#` 是运算符",
+            "Oracle / PLSQL: `#` is XOR /`#` 是运算符",
+            "Trino / Presto: `#` is XOR /`#` 是运算符",
+            "Presto (legacy name of Trino) /Presto（Trino 的旧名）",
+            "Redshift: `#` is XOR /`#` 是运算符",
+            "DuckDB: `#` is XOR /`#` 是运算符",
+            "SQLite: `#` is XOR /`#` 是运算符",
+            "DB2: `#` is XOR /`#` 是运算符",
+            "Databricks SQL: `#` is XOR /`#` 是运算符"
+          ],
+          "description": "SQL dialect used to disambiguate `#` and other lexical edge cases. `auto` follows the document's language id; set it explicitly when your files are plain `sql` but you write a specific dialect. /SQL 方言，用于区分 `#` 是注释还是运算符。auto=跟随编辑器语言标识；文件都是纯 sql 但写特定方言时请显式指定"
+        },
+        "snugSql.as_loc_cnt": {
+          "scope": "resource",
+          "type": "number",
+          "default": 0,
+          "minimum": -1,
+          "maximum": 1000,
+          "description": "Set max column for aligning words after `as` (0 = follow max_line_length, negative = no limit) /自定义当字段长度超过多少列后不参与 as 对齐(0=跟随折行宽度，负数=不限制)"
+        },
+        "snugSql.screen_width": {
+          "scope": "resource",
+          "type": "number",
+          "default": 0,
+          "minimum": -1,
+          "maximum": 320,
+          "description": "屏幕上可用于代码的列数 W（= 100% 基准）。一行超过 W×80% 就会折行，折行点尽量落在 80% 附近，并向前/向后舍入到完整逻辑块的边界（不会把 `price * cnt` 这类算式从中间劈开）；只在无法安全断开时才允许占用到 100%。多显示器时取**最宽的那块屏**。0=自动（探测最宽显示器；探测不到时跟随 editor.wordWrapColumn，最后按 120 列）；-1=从文件现有行宽推断（会导致多次格式化结果不同，不推荐）"
+        },
+        "snugSql.max_line_length": {
+          "scope": "resource",
+          "type": "number",
+          "default": 0,
+          "minimum": 0,
+          "maximum": 320,
+          "description": "一行允许的最大列数（hard limit，硬上限），等价于手动指定 screen_width：超过它的 80% 就会折行，折行点仍会舍入到完整逻辑块边界。设为 0 表示按 screen_width 计算，screen_width 也为 0 时按探测到的屏幕宽度（探测不到用 120 列）。"
+        },
+        "snugSql.cjk_width": {
+          "scope": "resource",
+          "type": "number",
+          "default": 1.81818,
+          "minimum": 0,
+          "maximum": 4,
+          "description": "一个汉字相对一个 ASCII 字符的渲染宽度，用于 AS / 注释 / DDL 列对齐时补空格。取值范围 0~4（0 表示使用默认值 1.81818 = Consolas 0.550em + 微软雅黑 1.000em）。"
+        },
+        "snugSql.detectScreenWidth": {
+          "type": "boolean",
+          "default": true,
+          "description": "是否用 PowerShell 探测本机显示器像素宽度，并据此决定折行宽度（默认开启：启动时探测一次，多显示器取最宽那块屏，结果按 80% 作为折行目标）。探测只在本机、仅 Windows、仅受信任工作区里执行，参数含 -ExecutionPolicy Bypass，部分企业安全软件会告警，单次约 0.4~4 秒；探测失败会自动回落到 editor.wordWrapColumn，再回落到 120 列。注意：探测结果记录的是**像素宽度**，可见列数按当前 editor.fontSize 实时换算，所以同一台机器上改字号会立刻生效；但不同机器/显示器之间像素宽度本来就不同，**跨机器一致的排版只能靠显式配置**——把本项设为 false 并显式设置 screen_width（或 max_line_length）。只有在 max_line_length 与 screen_width 都未配置时探测结果才会生效；运行中改动这三项配置会自动重新探测。"
+        },
+        "snugSql.lint.enabled": {
+          "scope": "resource",
+          "type": "boolean",
+          "default": true,
+          "description": "格式化时同时检查 SQL 的错误写法与不规范写法，结果显示在「问题」面板里。/ Lint SQL for errors and questionable patterns while formatting; results appear in the Problems panel."
+        },
+        "snugSql.lint.disabledRules": {
+          "scope": "resource",
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "default": [],
+          "description": "要静音的规则 id（可用值见 README 的规则表，或「问题」面板里 code 列）。/ Rule ids to silence. See the rule table in README, or the code column in the Problems panel."
+        }
+      }
+    }
+  },
+  "icon": "images/icon-128.png",
+  "devDependencies": {
+    "@types/vscode": "^1.60.0"
+  },
+  "license": "MIT",
+  "author": {
+    "name": "zkcoding"
+  }
+}

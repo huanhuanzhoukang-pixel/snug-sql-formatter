@@ -1,0 +1,48 @@
+# 打包排除清单 / packaging exclusions
+
+# 本地备份目录（整棵源码树的副本，运行时用不到）
+backup-*/**
+**/backups/**
+**/source-snapshots/**
+
+# 审计 / 复核脚本与临时产物
+audit/**
+recheck/**
+probe/**
+*.audit*
+.audit-tmp/**
+
+# 调试产物
+**/*.map
+**/*.ts
+**/*.tsbuildinfo
+
+# 开发期元数据
+.gitignore
+.git/**
+.vscode/**
+**/.DS_Store
+.reasonix/**
+
+# 回归套件随源码走，不打包进 vsix
+test/**
+
+# 注意：probe.ps1 必须保留！
+#   扩展用 `-File <extensionPath>/probe.ps1` 探测编辑区宽度，
+#   排除它会让屏幕探测永远失败、列宽退回 120 列。
+#
+# 注意：images/icon-128.png 必须保留（package.json 的 icon 字段指向它）。
+#   README 里引用的 images/*.gif 与 *.png 也会被 vsce 一起打包，
+#   因为它们就是 Marketplace 页面上显示的那些图。
+
+# 发布流程说明（给仓库维护者看的，不随扩展分发）
+PUBLISH-CHECKLIST.md
+
+# 审计 / 复核报告（开发期文档，34 KB，不随扩展分发）
+AUDIT-REPORT.md
+
+# README 只用到 demo.gif；demo2.gif 是同一段演示的另一次录制（123 KB），
+# 没有任何文档引用它，排除掉可以直接省下四分之一的包体积。
+images/demo2.gif
+
+

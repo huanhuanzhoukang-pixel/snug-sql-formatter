@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="128" height="128" viewBox="0 0 128 128">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#141B2D"/>
+      <stop offset="1" stop-color="#0A0F1A"/>
+    </linearGradient>
+    <linearGradient id="kw" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#22D3EE"/>
+      <stop offset="1" stop-color="#38BDF8"/>
+    </linearGradient>
+    <linearGradient id="node" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#22D3EE"/>
+      <stop offset="0.5" stop-color="#818CF8"/>
+      <stop offset="1" stop-color="#A78BFA"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="128" height="128" rx="26" fill="url(#bg)"/>
+  <rect x="0.5" y="0.5" width="127" height="127" rx="25.5" fill="none" stroke="#FFFFFF" stroke-opacity="0.06"/>
+
+  <text x="63" y="54" text-anchor="middle" font-family="'SF Mono','Cascadia Code','Consolas','Courier New',monospace" font-size="50" font-weight="800" letter-spacing="2">
+    <tspan fill="url(#kw)">S</tspan><tspan fill="#A78BFA">Q</tspan><tspan fill="#94A3B8">L</tspan>
+  </text>
+
+  <rect x="19" y="75" width="21.6" height="5" rx="2.5" fill="url(#kw)"/>
+  <rect x="23" y="87" width="13.5" height="5" rx="2.5" fill="#A78BFA" opacity="0.8"/>
+  <rect x="21" y="99" width="21.6" height="5" rx="2.5" fill="#94A3B8" opacity="0.6"/>
+
+  <g transform="translate(-5, -1) translate(64, 90) scale(1, 0.3) translate(-64, -90)">
+    <path d="M 54 90 L 65 90" stroke="url(#node)" stroke-width="8" stroke-linecap="round" fill="none"/>
+    <path d="M 63 83 L 74 90 L 63 97" stroke="url(#node)" stroke-width="8" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+  </g>
+
+  <rect x="85" y="75" width="21.6" height="5" rx="2.5" fill="url(#kw)"/>
+  <rect x="85" y="87" width="21.6" height="5" rx="2.5" fill="#A78BFA" opacity="0.8"/>
+  <rect x="85" y="99" width="21.6" height="5" rx="2.5" fill="#94A3B8" opacity="0.6"/>
+</svg>

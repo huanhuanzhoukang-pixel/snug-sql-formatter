@@ -1,0 +1,21 @@
+# 本地备份（每份都是整棵源码树，只用于出问题时对照）
+*-backups/
+backup-*/
+
+# 打包产物
+*.vsix
+
+# 依赖与测试缓存
+node_modules/
+.vscode-test/
+
+# 编辑器 / 系统垃圾
+**/.DS_Store
+Thumbs.db
+*.log
+
+# 工具会话缓存（内含剪贴板截图等本地数据，绝不能推到公开仓库）
+.reasonix/**
+
+# 绘图 / 图标验收产物（只用于本地确认，已由 .vscodeignore 的 test/** 挡住不进 vsix）
+test/preview/

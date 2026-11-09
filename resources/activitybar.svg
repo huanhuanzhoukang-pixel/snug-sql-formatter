@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+  <text x="12" y="9.5" text-anchor="middle" font-family="'SF Mono',Consolas,monospace" font-size="8.5" font-weight="700" fill="currentColor" letter-spacing="0.5">SQL</text>
+
+  <rect x="2.5" y="13" width="5" height="1.5" rx="0.75" fill="currentColor"/>
+  <rect x="4" y="15.5" width="3" height="1.5" rx="0.75" fill="currentColor"/>
+  <rect x="3" y="18" width="5" height="1.5" rx="0.75" fill="currentColor"/>
+
+  <path d="M9.5 17H11.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+  <path d="M11 15L13 17L11 19" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+
+  <rect x="16.5" y="13" width="5" height="1.5" rx="0.75" fill="currentColor"/>
+  <rect x="16.5" y="15.5" width="5" height="1.5" rx="0.75" fill="currentColor"/>
+  <rect x="16.5" y="18" width="5" height="1.5" rx="0.75" fill="currentColor"/>
+</svg>
