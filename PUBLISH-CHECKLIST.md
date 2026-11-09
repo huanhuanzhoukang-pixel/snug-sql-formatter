@@ -98,27 +98,36 @@ Source / Issues 按钮全部 404 —— 已改为真实仓库地址并在 1.1.1 
 做法：
 
 1. GitHub 上新建仓库 `huanhuanzhoukang-pixel/snug-sql-formatter`（公开）
+   —— ✅ 已完成
 2. 若换了账号或仓库名，改两处：
    - `package.json` → `repository.url`
    - `extension.js` → `var RULES_URL = '...'`（改完锚点必须仍是 `#规则表`，
      `test/run.js` 的 DG-17 会校验锚点在 README 里真实存在）
-3. 推上去（当前目录还不是 git 仓库）：
+3. 推送 —— ✅ 已完成（`git init -b main` 在 1.1.1 那一轮做的）：
 
 ```powershell
-git init
-git add -A
-git commit -m "snug-sql-formatter 1.1.1"
-git branch -M main
 git remote add origin https://github.com/huanhuanzhoukang-pixel/snug-sql-formatter.git
 git push -u origin main
 ```
 
-> 推送前先跑一次 `git status` 确认 `.reasonix/` 与 `test/preview/` 不在待提交列表里。
-> `.reasonix/attachments/` 自带的 `.gitignore` 写的是 `*`，工具会话截图不会被推上去。
+后续每次发版只要：
 
-`.gitignore` 已排除 `*.vsix`、`node_modules/`、`backup-*`。
+```powershell
+git add -A
+git commit -m "1.1.x: <改了什么>"
+git push
+```
+
+> 推送前先跑一次 `git status` 确认 `.reasonix/` 与 `test/preview/` 不在待提交列表里。
+> 两者都已在 `.gitignore` 里；`.reasonix/attachments/` 自带的 `.gitignore` 写的是 `*`，
+> 工具会话截图不会被推上去。
+
+`.gitignore` 已排除 `*.vsix`、`node_modules/`、`backup-*`、`.reasonix/`、`test/preview/`。
 `AUDIT-REPORT.md`、`PUBLISH-CHECKLIST.md` 会进 GitHub（开发文档，公开无妨），
 但不进 vsix。
+
+> **顺序很重要**：先推 GitHub 再传 vsix。`vsce` 会把 README 里的相对路径改写成
+> 仓库 raw 地址，仓库里没有对应文件时页面上就是裂图（1.1.0 就栽在这上面）。
 
 ---
 
